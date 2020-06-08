@@ -1,0 +1,121 @@
+From d862fbef5136e4953b583bdcdce06f8224b6bdf1 Mon Sep 17 00:00:00 2001
+From: sereen-ba <sireenbahadad@gmail.com>
+Date: Mon, 8 Jun 2020 20:18:58 +0300
+Subject: [PATCH] Create Patch File
+
+---
+ client.py      |  43 +++++++++++++++++++------------------------
+ client.pyc     | Bin 0 -> 1312 bytes
+ client_test.py |  13 +++++--------
+ 3 files changed, 24 insertions(+), 32 deletions(-)
+ create mode 100644 client.pyc
+
+diff --git a/client.py b/client.py
+index df6318b..6748063 100644
+--- a/client.py
++++ b/client.py
+@@ -30,29 +30,24 @@ QUERY = "http://localhost:8080/query?id={}"
+ N = 500
+ 
+ def getDataPoint(quote):
+-	""" Produce all of the needed values to generate a datapoint """
+-	""" ------------- Update this function ------------- """
+-	stock = quote['stock']
+-	bid_price = float(quote['top_bid']['price'])
+-	ask_price = float(quote['top_ask']['price'])
+-	price = bid_price
+-	return stock, bid_price, ask_price, price
+ 
+-def getRatio(price_a, price_b):
+-  if(2>1):
+-    print "test!!!"
+-  return 1
+-
+-# Main
+-if __name__ == "__main__":
+-
+-	# Query the price once every N seconds.
+-	for _ in xrange(N):
+-		quotes = json.loads(urllib2.urlopen(QUERY.format(random.random())).read())
++  stock = quote['stock']
++  bid_price = float(quote['top_bid']['price'])
++  ask_price = float(quote['top_ask']['price'])
++  price = (bid_price+ask_price)/2
++  return stock, bid_price, ask_price, price
+ 
+-		""" ----------- Update to get the ratio --------------- """
+-		for quote in quotes:
+-			stock, bid_price, ask_price, price = getDataPoint(quote)
+-			print "Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price)
+-
+-		print "Ratio %s" % getRatio(price, price)
++def getRatio(price_a, price_b):
++  if price_b==0:
++    return 1
++  else:
++   return price_a/price_b
++
++if __name__ == "__main__":	
++  for _ in xrange(N):
++    quotes = json.loads(urllib2.urlopen(QUERY.format(random.random())).read())
++    prices ={} 
++    for quote in quotes:
++      stock, bid_price, ask_price, price = getDataPoint(quote)
++      print ("Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price))
++print ("Ratio %s" % getRatio(price, price))
+diff --git a/client.pyc b/client.pyc
+new file mode 100644
+index 0000000000000000000000000000000000000000..d504e3e89f062d694b21159eb056842d1216f3a8
+GIT binary patch
+literal 1312
+zcmcIiOK;Oa5T3OiH%ZfXQ>cVcI3SD!xWJ_<PeBlskfJtGRbc_v#@;qg{7AeT^+9qf
+z2mT5FiW|Rx-Z;R_rYVRs*q-&w?94Y$^ZQ)+Jo)+|fQx4a|Id-+4?IHr7{mbHCC|WP
+zQ@sJ6G38D0ObAh9L5O?-LJK~jqYYs}GczEH5Zcf)ApZu(pFxyB6yS_O{rwSmWe^5*
+zXF&jTD<CZB&VewYYr+|j5q{nI3*K9R2%#6@_z{Q&^nVE65(pc_64|}8z*`1y1-w=8
+zst{u2We_VMRzXzZz=E~c+k-E#KRAT_6bmbYK$9wcX9itj%`K;d^+!MPX~-MMc9iOG
+zxo(^VJnm#tZEbFBZn%S?$WNX{;ggT!=$rurNKinskX|Cm9Xv+5jq76uY9bi0j!jy}
+zT*t;#XZ_ZhFfw3d!WC>?b!@?iT_{EtrQdRF1Z^maBUKjk6b(&feZL)rTHDW~KwN6M
+z>_rAzIFy{eKZrA~9P-!VV3;Y<L<tmCjVS&Efh6>vNKK7FRt_EV4Ib{E6uER|lnarz
+zc_-wdThESC#1Exgk4{fdwt1e!Ldq9B=*gJNj@#`gev*a5SortdAdW<;?)6Vp1@R7r
+zs&mD6vM5zG3R1=cj51rrcb)~5!jyD-ub~3lgA=2@TBHqZVY^XPZQ=H|91{&1xGgwL
+zDqpAW5QJ`zF4O0K@a>5OIsEeqiwKGpHo1y23L|Nbz$(l#6y5oL!lTsp<t-F;X((as
+zrmS&Qb8seGH|3ogPDB57;>g{W<fswR)LBD87c<P`IBGvow1+B6gl4)jOBKb;c^YPk
+zp8f9LtL9rpt!Xqh)GT>SvPpR&d|!JUqYI`^cE0x06P||3`Zz-ZKFIQfD;+EsJk&b9
+zT~f0;YuTj5)9cnGpC)bZU(4m7>i_ir@nrL!Rw=-BJSy0Kd`;W5jZ(2>SJ(=>%WO8s
+IuCf~Y1(gjR1poj5
+
+literal 0
+HcmV?d00001
+
+diff --git a/client_test.py b/client_test.py
+index a608a01..1702167 100644
+--- a/client_test.py
++++ b/client_test.py
+@@ -7,19 +7,16 @@ class ClientTest(unittest.TestCase):
+       {'top_ask': {'price': 121.2, 'size': 36}, 'timestamp': '2019-02-11 22:06:30.572453', 'top_bid': {'price': 120.48, 'size': 109}, 'id': '0.109974697771', 'stock': 'ABC'},
+       {'top_ask': {'price': 121.68, 'size': 4}, 'timestamp': '2019-02-11 22:06:30.572453', 'top_bid': {'price': 117.87, 'size': 81}, 'id': '0.109974697771', 'stock': 'DEF'}
+     ]
+-    """ ------------ Add the assertion below ------------ """
+-
+   def test_getDataPoint_calculatePriceBidGreaterThanAsk(self):
+     quotes = [
+       {'top_ask': {'price': 119.2, 'size': 36}, 'timestamp': '2019-02-11 22:06:30.572453', 'top_bid': {'price': 120.48, 'size': 109}, 'id': '0.109974697771', 'stock': 'ABC'},
+       {'top_ask': {'price': 121.68, 'size': 4}, 'timestamp': '2019-02-11 22:06:30.572453', 'top_bid': {'price': 117.87, 'size': 81}, 'id': '0.109974697771', 'stock': 'DEF'}
+     ]
+-    """ ------------ Add the assertion below ------------ """
+-
+-
+   """ ------------ Add more unit tests ------------ """
+-
+-
+-
+ if __name__ == '__main__':
+     unittest.main()
++    unittest.getRatio()
++    unittest.getDataPoint()
++    
++
++  
+-- 
+2.24.3 (Apple Git-128)
+
